@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64;osx-x64;linux-x64</RuntimeIdentifiers>
+    <AssemblyName>Google.OrTools</AssemblyName>
+    <Version>@PROJECT_VERSION@</Version>
+    <UseSharedCompilation>False</UseSharedCompilation>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <!-- Nuget Properties-->
+  <PropertyGroup>
+    <PackageId>Google.OrTools</PackageId>
+    <Version>@PROJECT_VERSION@</Version>
+    <Authors>Google LLC</Authors>
+    <Description>.NET wrapper for the Operations Research Tools project</Description>
+    <Copyright>Copyright 2018 Google LLC</Copyright>
+    <PackageLicenseUrl>https://github.com/google/or-tools/blob/master/LICENSE-2.0.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://developers.google.com/optimization</PackageProjectUrl>
+    <PackageTags>native;math;LinearSolver;ConstraintSolver;ConstraintProgramming</PackageTags>
+    <PackageOutputPath>..\..\..\packages</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <AssemblyOriginatorKeyFile>..\..\..\bin\or-tools.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
+  </PropertyGroup>
+  <!-- When building localy we want to be able to only depends on one RID to test -->
+  <ItemGroup Condition="'$(RuntimeIdentifier)' == 'linux-x64'">
+    <ProjectReference Include="..\runtime.linux-x64.Google.OrTools\runtime.linux-x64.Google.OrTools.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(RuntimeIdentifier)' == 'osx-x64'">
+    <ProjectReference Include="..\runtime.osx-x64.Google.OrTools\runtime.osx-x64.Google.OrTools.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
+    <ProjectReference Include="..\runtime.win-x64.Google.OrTools\runtime.win-x64.Google.OrTools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="runtime.json">
+      <PackagePath>runtime.json</PackagePath>
+      <Pack>true</Pack>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
